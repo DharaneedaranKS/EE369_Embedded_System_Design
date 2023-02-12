@@ -1,10 +1,3 @@
-// Lab 2, Jan 25th 2023
-/*
- * Set GPIO 0 & 1 as input.
- * Set GPIO 2 as output.
- * Registers: GPADIR (Direction), GPADAT (Data)
-*/
-
 #include "DSP28x_Project.h"     // DSP28x Headerfile
 
 #include "f2802x_common/include/clk.h"
@@ -28,11 +21,8 @@ int main(void) {
   myClk = CLK_init((void *)CLK_BASE_ADDR, sizeof(CLK_Obj));
   myPll = PLL_init((void *)PLL_BASE_ADDR, sizeof(PLL_Obj));
 
-  // Using internal clock 1
-  // For using internal clock 2: CLK_Osc2Src_Internal
   CLK_setOscSrc(myClk, CLK_OscSrc_Internal);
 
-  // Base clock is 10Mhz, so PLL will do 10 * 12 / 2 = 60Mhz, which is max for this device
   PLL_setup(myPll, PLL_Multiplier_12, PLL_DivideSelect_ClkIn_by_2);
 
   GPIO_Handle myGpio;

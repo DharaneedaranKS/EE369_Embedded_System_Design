@@ -1,9 +1,9 @@
-# Lab 1, 18th Jan 2023
+### Lab 1, 18th Jan 2023
 
-# Task
-Had to make led on launchpad glow.
+### Task
+Make LEDs on launchpad glow.
 
-# Implementation
+### Implementation & Learnings
 
 - LEDs are connected to GPIO pin 0, 1, 2, 3.
 - Set GPIO to general purpose mode.

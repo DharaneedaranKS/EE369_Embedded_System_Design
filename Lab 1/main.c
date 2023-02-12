@@ -1,4 +1,3 @@
-// Lab 1, Jan 18, 2023
 #include "DSP28x_Project.h"     // DSP28x Headerfile
 
 #include "f2802x_common/include/clk.h"

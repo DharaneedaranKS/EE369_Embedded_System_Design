@@ -30,81 +30,79 @@
 #include "f2802x_common/include/pll.h"
 #include "f2802x_common/include/wdog.h"
 
-
 #ifdef _FLASH
     memcpy(&RamfuncsRunStart, &RamfuncsLoadStart, (size_t)&RamfuncsLoadSize);
 #endif
 
-int main(void) {
-  WDOG_Handle myWDog;
-  myWDog = WDOG_init((void *)WDOG_BASE_ADDR, sizeof(WDOG_Obj));
+int main(void)
+{
+    WDOG_Handle myWDog;
+    myWDog = WDOG_init((void *)WDOG_BASE_ADDR, sizeof(WDOG_Obj));
 
-  CLK_Handle myClk;
-  myClk = CLK_init((void *)CLK_BASE_ADDR, sizeof(CLK_Obj));
+    CLK_Handle myClk;
+    myClk = CLK_init((void *)CLK_BASE_ADDR, sizeof(CLK_Obj));
 
-  PLL_Handle myPll;
-  myPll = PLL_init((void *)PLL_BASE_ADDR, sizeof(PLL_Obj));
+    PLL_Handle myPll;
+    myPll = PLL_init((void *)PLL_BASE_ADDR, sizeof(PLL_Obj));
 
-  // Using internal clock 1
-  // For using internal clock 2: CLK_Osc2Src_Internal
-  CLK_setOscSrc(myClk, CLK_OscSrc_Internal);
+    // Using internal clock 1
+    // For using internal clock 2: CLK_Osc2Src_Internal
+    CLK_setOscSrc(myClk, CLK_OscSrc_Internal);
 
-  // Base clock is 10Mhz, so PLL will do 10 * 12 / 2 = 60Mhz, which is max for this device
-  PLL_setup(myPll, PLL_Multiplier_12, PLL_DivideSelect_ClkIn_by_1);
+    // Base clock is 10Mhz, so PLL will do 10 * 12 / 2 = 60Mhz, which is max for this device
+    PLL_setup(myPll, PLL_Multiplier_12, PLL_DivideSelect_ClkIn_by_1);
 
-  GPIO_Handle myGpio;
-  myGpio = GPIO_init((void *)GPIO_BASE_ADDR, sizeof(GPIO_Obj));
+    GPIO_Handle myGpio;
+    myGpio = GPIO_init((void *)GPIO_BASE_ADDR, sizeof(GPIO_Obj));
 
-  // Set GPIO 0, 1, 2, 3 to output
-  GPIO_setMode(myGpio, GPIO_Number_0, GPIO_0_Mode_GeneralPurpose);
-  GPIO_setDirection(myGpio, GPIO_Number_0, GPIO_Direction_Output);
-  GPIO_setMode(myGpio, GPIO_Number_1, GPIO_1_Mode_GeneralPurpose);
-  GPIO_setDirection(myGpio, GPIO_Number_1, GPIO_Direction_Output);
-  GPIO_setMode(myGpio, GPIO_Number_2, GPIO_2_Mode_GeneralPurpose);
-  GPIO_setDirection(myGpio, GPIO_Number_2, GPIO_Direction_Output);
-  GPIO_setMode(myGpio, GPIO_Number_3, GPIO_3_Mode_GeneralPurpose);
-  GPIO_setDirection(myGpio, GPIO_Number_3, GPIO_Direction_Output);
+    // Set GPIO 0, 1, 2, 3 to output
+    GPIO_setMode(myGpio, GPIO_Number_0, GPIO_0_Mode_GeneralPurpose);
+    GPIO_setDirection(myGpio, GPIO_Number_0, GPIO_Direction_Output);
+    GPIO_setMode(myGpio, GPIO_Number_1, GPIO_1_Mode_GeneralPurpose);
+    GPIO_setDirection(myGpio, GPIO_Number_1, GPIO_Direction_Output);
+    GPIO_setMode(myGpio, GPIO_Number_2, GPIO_2_Mode_GeneralPurpose);
+    GPIO_setDirection(myGpio, GPIO_Number_2, GPIO_Direction_Output);
+    GPIO_setMode(myGpio, GPIO_Number_3, GPIO_3_Mode_GeneralPurpose);
+    GPIO_setDirection(myGpio, GPIO_Number_3, GPIO_Direction_Output);
 
-  // Set all of those to high, which means to NOT glow
-  GPIO_setHigh(myGpio, GPIO_Number_0);
-  GPIO_setHigh(myGpio, GPIO_Number_1);
-  GPIO_setHigh(myGpio, GPIO_Number_2);
-  GPIO_setHigh(myGpio, GPIO_Number_3);
-
-  /* Lab 5 starts here */
-  // Watchdog interrupt enable
-  WDOG_enableInt(myWDog);
-
-  /* -- TO CHECK IF INTERRUPT IS WORKING
-  // CPU write access to the flash configuration registers can be enabled only by executing the EALLOW instruction. 
-  EALLOW;
-  // This function resets the watchdog timer.
-  SysCtrlRegs.WDKEY = 0x0055;
-  SysCtrlRegs.WDKEY = 0x00AA;
-  if (SysCtrlRegs.SCSR & 0x04) {
-    GPIO_setLow(myGpio, GPIO_Number_0);
-    DELAY_US(5000000);
+    // Set all of those to high, which means to NOT glow
     GPIO_setHigh(myGpio, GPIO_Number_0);
-  }
-  // Disable watchdog timer
-  // SysCtrlRegs.WDCR= 0x0068;
-  // Write access is disabled when the EDIS instruction is executed.
-  EDIS;
-  -- TO CHECK IF INTERRUPT IS WORKING */
+    GPIO_setHigh(myGpio, GPIO_Number_1);
+    GPIO_setHigh(myGpio, GPIO_Number_2);
+    GPIO_setHigh(myGpio, GPIO_Number_3);
 
-  WDOG_disable(myWDog);
+    /* Lab 5 starts here */
+    // Watchdog interrupt enable
+    WDOG_enableInt(myWDog);
 
-  WDOG_setPreScaler(myWDog, WDOG_PreScaler_OscClk_by_512_by_2);
+    /* -- TO CHECK IF INTERRUPT IS WORKING
+    // CPU write access to the flash configuration registers can be enabled only by executing the EALLOW instruction. 
+    EALLOW;
+    // This function resets the watchdog timer.
+    SysCtrlRegs.WDKEY = 0x0055;
+    SysCtrlRegs.WDKEY = 0x00AA;
+    if (SysCtrlRegs.SCSR & 0x04) {
+        GPIO_setLow(myGpio, GPIO_Number_0);
+        DELAY_US(5000000);
+        GPIO_setHigh(myGpio, GPIO_Number_0);
+    }
+    // Disable watchdog timer
+    // SysCtrlRegs.WDCR= 0x0068;
+    // Write access is disabled when the EDIS instruction is executed.
+    EDIS;
+    -- TO CHECK IF INTERRUPT IS WORKING */
 
-  while (1) {
-    if(WDOG_getIntStatus(myWDog))
+    WDOG_disable(myWDog);
+
+    WDOG_setPreScaler(myWDog, WDOG_PreScaler_OscClk_by_512_by_2);
+
+    while (1) {
+    if (WDOG_getIntStatus(myWDog))
       GPIO_setLow(myGpio,GPIO_Number_0);
     else
       GPIO_setHigh(myGpio,GPIO_Number_0);
     // Check in oscilloscope. 512 clock cycles * 1/10MHZ = 51.2us delay
-  }
+    }
 
-  return 0;
+    return 0;
 }
-
-

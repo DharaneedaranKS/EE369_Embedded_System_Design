@@ -79,7 +79,6 @@ int main(void)
     CPU_enableGlobalInts(myCpu);
     CPU_enableDebugInt(myCpu);
 
-
     LoopCount = 0;
     ADC_counter = 0;
 

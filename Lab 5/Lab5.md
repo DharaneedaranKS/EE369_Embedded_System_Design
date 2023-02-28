@@ -8,3 +8,8 @@ Monitor the JTAG pins when the switch related to JTAG is switched on and off. Pi
 ## Results 
 
 ![results](https://github.com/DharaneedaranKS/EE369_Embedded_System/blob/main/Lab%205/JTAG_results.jpeg)
+
+From the top, the waveforms are those of :
+- TCK
+- TMS
+- TDO

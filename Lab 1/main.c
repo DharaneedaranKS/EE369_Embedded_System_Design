@@ -5,13 +5,12 @@
 #include "f2802x_common/include/pll.h"
 #include "f2802x_common/include/wdog.h"
 
-
 #ifdef _FLASH
     memcpy(&RamfuncsRunStart, &RamfuncsLoadStart, (size_t)&RamfuncsLoadSize);
 #endif
 
-
-int main(void) {
+int main(void)
+{
   WDOG_Handle myWDog;
   myWDog = WDOG_init((void *)WDOG_BASE_ADDR, sizeof(WDOG_Obj));
   WDOG_disable(myWDog);

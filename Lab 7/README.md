@@ -6,3 +6,8 @@
 
 ## Observation 
 
+The observations in the oscilloscope were as the follows 
+![50% up counter and 50% down counter](https://github.com/DharaneedaranKS/EE369_Embedded_System/blob/main/Lab%207/50%25%20updown.jpeg)
+![25% up counte and 75% down counter](https://github.com/DharaneedaranKS/EE369_Embedded_System/blob/main/Lab%207/25%25%20up%2075%25%20down.jpeg)
+![both 25%](https://github.com/DharaneedaranKS/EE369_Embedded_System/blob/main/Lab%207/25%25%20both.jpeg)
+
